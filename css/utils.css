@@ -1,0 +1,51 @@
+.btn-submit,
+.btn-signup {
+    background: #fe142f;
+    display: block;
+    margin: 0 auto;
+    border-radius: 7px;
+    font-size: 1rem;
+    padding: 12px 82px;
+    color: #fff;
+    cursor: pointer;
+    border: 0;
+}
+
+.text-label {
+    font-weight: normal;
+    font-size: 16px;
+}
+
+.btn-signup {
+    outline: none;
+    text-transform: capitalize;
+    font-size: 1.3rem;
+    padding: 15px 23px;
+    margin: 59px 0 0 0;
+}
+
+
+
+#validation-section {
+    display: none;
+    height: 90vh;
+}
+
+#div {
+    width: 70%;
+    height: 90%;
+}
+
+#span {
+    text-align: center;
+}
+
+.flex-center {
+    justify-content: center ;
+    align-items: center;
+}
+
+.flex-between {
+    justify-content: space-between ;
+    align-items: center;
+}

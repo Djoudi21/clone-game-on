@@ -1,0 +1,95 @@
+.topnav {
+    overflow: hidden;
+    margin: 3.5%;
+}
+
+.topnav a {
+    float: left;
+    display: block;
+    color: #000000;
+    text-align: center;
+    padding: 12px 12px;
+    margin: 5px;
+    text-decoration: none;
+    font-size: 20px;
+    font-family: Roboto, sans-serif;
+}
+
+.active-link {
+    color: white !important;
+    border-radius: 15px;
+    background-color: red;
+    text-decoration-line: underline !important;
+    text-underline-offset: 6px;
+}
+
+.topnav .icon {
+    display: none;
+}
+
+.main-navbar {
+    float: right;
+}
+
+.mobile-navbar {
+    display: none;
+}
+
+.header-logo {
+    float: left;
+}
+
+@media screen and (min-width: 1024px) {
+    .topnav a:hover {
+        opacity: 0.5;
+        color: red;
+    }
+}
+
+
+@media screen and (max-width: 1023px) {
+    .topnav.responsive {position: relative;}
+    .topnav.responsive .icon {
+        position: absolute;
+        right: 0;
+        top: 0;
+    }
+    .topnav.responsive a {
+        float: none;
+        display: block;
+        text-align: left;
+    }
+
+    .main-navbar {
+        display: none;
+    }
+
+    .topnav {
+        margin: 25px 15px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    .topnav a {display: none;}
+    .topnav a.icon {
+        color: red;
+        font-size: 9vw;
+        float: right;
+        display: block;
+    }
+    .mobile-navbar {
+        color: white;
+        display: none;
+        right: -500px;
+        top: 5px;
+        position: fixed;
+        border-radius: 5px;
+        z-index: 10;
+        background-color: red;
+        width: 70%;
+    }
+
+    .mobile-navbar a {
+        color: white;
+    }
+}

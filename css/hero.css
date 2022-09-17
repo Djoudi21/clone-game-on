@@ -1,0 +1,146 @@
+.hero-section {
+    min-height: 93vh;
+    border-radius: 10px;
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    overflow: hidden;
+    box-shadow: 0 2px 7px 2px rgba(0, 0, 0, 0.2);
+    margin-bottom: 10px;
+}
+.hero-content {
+    padding: 51px 67px;
+    grid-column: span 4;
+    background: #232323;
+    color: #fff;
+    position: relative;
+    text-align: left;
+    min-width: 424px;
+}
+.hero-content::after {
+    content: "";
+    width: 100%;
+    height: 100%;
+    background: #232323;
+    position: absolute;
+    right: -80px;
+    top: 0;
+}
+.hero-content > * {
+    position: relative;
+    z-index: 1;
+}
+.hero-headline {
+    font-size: 7vw;
+    font-weight: normal;
+    white-space: nowrap;
+}
+.hero-text {
+    width: 146%;
+    font-weight: normal;
+    margin-top: 57px;
+    padding: 0;
+}
+
+.hero-img {
+    grid-column: span 8;
+}
+.hero-img img {
+    width: 100%;
+    height: 100%;
+    display: block;
+    padding: 0;
+}
+
+.copyrights {
+    color: #fe142f;
+    padding: 0;
+    font-size: 1rem;
+    margin: 60px 0 30px;
+    font-weight: bolder;
+}
+.hero-section > .btn-signup {
+    display: none;
+}
+
+
+@media screen and (max-width: 400px) {
+    .hero-section {
+        display: block;
+        box-shadow: unset;
+    }
+    .hero-content {
+        padding:0;
+        background: white;
+        color: black;
+        position: static;
+        text-align: left;
+        min-width: 100px;
+    }
+    .hero-content::after {
+        content: unset;
+    }
+    .hero-content .btn-signup {
+        display: none;
+    }
+    .hero-headline {
+        font-size: 10vw;
+        font-weight: bold;
+    }
+    .hero-text {
+        font-size: 1rem;
+        width: 100%;
+        margin-top: 20px;
+        text-align: justify;
+    }
+    .hero-img img {
+        border-radius: 10px;
+        margin-top: 40px;
+    }
+    .hero-section > .btn-signup {
+        display: block;
+        margin: 32px auto 10px;
+        padding: 12px 35px;
+    }
+    .copyrights {
+        margin-top: 50px;
+        text-align: center;
+    }
+}
+
+@media screen and (min-width: 401px) and (max-width: 800px) {
+    .hero-section {
+        display: block;
+        box-shadow: unset;
+    }
+    .hero-content {
+        padding:0;
+        background: white;
+        color: black;
+        position: static;
+        text-align: left;
+        min-width: 100px;
+    }
+    .hero-content::after {
+        content: unset;
+    }
+    .hero-content .btn-signup {
+        display: none;
+    }
+    .hero-text {
+        font-size: 1rem;
+        width: 100%;
+    }
+    .hero-img img {
+        border-radius: 10px;
+        margin-top: 40px;
+    }
+    .hero-section > .btn-signup {
+        display: block;
+        margin: 32px auto 10px;
+        padding: 12px 35px;
+    }
+    .copyrights {
+        margin-top: 50px;
+        text-align: center;
+    }
+}
