@@ -14,16 +14,28 @@ const forms = {
   checkbox1: false,
 }
 
+let newForms = {
+  first: false,
+  last: false,
+  email: false,
+  birthDate: false,
+  quantity: false,
+  checkBoxArray: false,
+  checkbox1: false,
+}
+
 
 // DOM Elements
 const modalBg = document.querySelector(".background");
 const modalCloseIcon = document.querySelector(".close");
 const modalBtn = document.querySelectorAll(".modal-btn");
-const radioBtn = document.querySelectorAll(".checkbox-input");
+const checkboxInputs = document.querySelectorAll(".checkbox-input");
 const formData = document.querySelectorAll(".formData");
 const mainNavLinks = document.querySelectorAll(".main-nav-link");
 const mobileNavLinks = document.querySelectorAll(".mobile-nav-link");
-
+const radioBtns = Array.from(checkboxInputs).filter(el => {
+  return el.type === 'radio'
+})
 
 //Element by ID
 const form = document.getElementById("form");
@@ -41,6 +53,10 @@ const validationBtn = document.getElementById("validation-btn");
 
 // launch modal event
 modalBtn.forEach((btn) => btn.addEventListener("click", launchModal));
+radioBtns.forEach((btn) => btn.addEventListener("change", function(event){
+  event.preventDefault()
+  selectRadioBtn(btn)
+}));
 mainNavLinks.forEach((link) => link.addEventListener("click", function(event){
   setMainActiveLink(link)
 }));
@@ -52,6 +68,7 @@ inputLast.addEventListener("blur", checkLastInput);
 email.addEventListener("blur", checkEmail);
 birthDate.addEventListener("blur", checkBirthDate);
 quantity.addEventListener("blur", checkQuantity);
+checkbox1.addEventListener("change", selectGU);
 validationBtn.addEventListener("click", closeModal);
 form.addEventListener('submit', function(event){
   event.preventDefault()
@@ -101,22 +118,16 @@ function editNav() {
   }
 }
 
-
 // launch modal form
 function launchModal() {
   modalBg.style.display = "block";
   form.style.display = "block"
-  console.log('bur', radioBtn)
-
 }
 
 // close modal
 function closeModal() {
   modalBg.style.display = "none";
-  if(isFormValidated) {
-    resetInputs()
-    validationSection.style.display = "none";
-  }
+  validationSection.style.display = "none";
 }
 
 function resetInputs() {
@@ -126,26 +137,28 @@ function resetInputs() {
   birthDate.value = ''
   quantity.value = ''
   resetRadioBtn()
+  checkCGU()
   checkbox1.checked = false
 }
 
-function hello(condition, formData, input, message, formEl) {
-  const errorMessage =  formData.querySelector('p.error-message')
-  let tutu;
-  if (errorMessage === null && condition) {
-    tutu = document.createElement('p')
-    tutu.classList.add("error-message");
-    tutu.innerText = message
-    tutu.style.color = "red"
-    tutu.style.fontSize = "10px"
-    tutu.style.margin = "5px 0"
-    formData.appendChild(tutu)
+//function to handle error message
+function handleErrorMessageDisplay(condition, formData, input, message, formEl) {
+  const existingErrorMessage =  formData.querySelector('p.error-message')
+  let newErrorMessage;
+  if (existingErrorMessage === null && condition) {
+    newErrorMessage = document.createElement('p')
+    newErrorMessage.classList.add("error-message");
+    newErrorMessage.innerText = message
+    newErrorMessage.style.color = "red"
+    newErrorMessage.style.fontSize = "10px"
+    newErrorMessage.style.margin = "5px 0"
+    formData.appendChild(newErrorMessage)
     if (input !== null) input.style.border = "2px solid red"
-  } else if (errorMessage && condition) {
-    formData.appendChild(errorMessage)
+  } else if (existingErrorMessage && condition) {
+    formData.appendChild(existingErrorMessage)
     if (input !== null) input.style.border = "2px solid red"
-  } else if (errorMessage !== null) {
-    errorMessage.remove()
+  } else if (existingErrorMessage !== null) {
+    existingErrorMessage.remove()
     forms[formEl] = true
     if (input !== null) input.style.border = "none"
   }
@@ -153,56 +166,65 @@ function hello(condition, formData, input, message, formEl) {
 
 //check input first name
 function checkFirstInput() {
-  hello(inputFirst.value.length < 2, formData[0], inputFirst, "Veuillez entrer deux caracteres minimum", "first")
+  handleErrorMessageDisplay(inputFirst.value.length < 2, formData[0], inputFirst, "Veuillez entrer deux caracteres minimum", "first")
 }
 
 //check input last name
 function checkLastInput() {
-  hello(inputLast.value.length < 2, formData[1], inputLast, "Veuillez entrer deux caracteres minimum", "last")
+  handleErrorMessageDisplay(inputLast.value.length < 2, formData[1], inputLast, "Veuillez entrer deux caracteres minimum", "last")
 }
 
 //check input email
 function checkEmail() {
-  hello( !regexEmail.test(email.value), formData[2], email, "Veuillez entrer un email valide", "email")
+  handleErrorMessageDisplay( !regexEmail.test(email.value), formData[2], email, "Veuillez entrer un email valide", "email")
 }
 
 //check input birth date
 function checkBirthDate() {
   const isDateValid = checkDate(new Date(birthDate.value))
-  hello( !isDateValid, formData[3], birthDate, "Veuillez entrer une date valide", "birthDate")
+  handleErrorMessageDisplay( !isDateValid, formData[3], birthDate, "Veuillez entrer une date valide", "birthDate")
 }
 
 //check input quantity date
 function checkQuantity() {
-  hello( quantity.value.length < 1, formData[4], quantity, "Veuillez entrer une quantité", "quantity")
+  handleErrorMessageDisplay( quantity.value.length < 1, formData[4], quantity, "Veuillez entrer une quantité", "quantity")
 }
 
 //check radio btn
 function checkData() {
-  hello(  checkBoxArray.length === 0, formData[5], null, "Veuillez selectionner un tournoi", "checkBoxArray")
+  handleErrorMessageDisplay(  checkBoxArray.length === 0, formData[5], null, "Veuillez selectionner un tournoi", "checkBoxArray")
 }
 
 function checkCGU() {
-  hello( checkbox1.checked === false , formData[6], null, "Veuillez accepter les conditions d'utilisation", "checkbox1")
+  handleErrorMessageDisplay( checkbox1.checked === false , formData[6], null, "Veuillez accepter les conditions d'utilisation", "checkbox1")
 }
 
 function checkFormValidation() {
-  inputFirst.value.length < 2 ? checkFirstInput() : forms.first = true
-  inputLast.value.length < 2 ? checkLastInput() : forms.last = true
-  !regexEmail.test(email.value) ? checkEmail() : forms.email = true
-  !checkDate(new Date(birthDate.value)) ? checkBirthDate() : forms.birthDate = true
-  quantity.value.length < 1 ? checkQuantity() : forms.quantity = true
+  inputFirst.value.length < 2 ? checkFirstInput() : newForms.first = true
+  inputLast.value.length < 2 ? checkLastInput() : newForms.last = true
+  !regexEmail.test(email.value) ? checkEmail() : newForms.email = true
+  !checkDate(new Date(birthDate.value)) ? checkBirthDate() : newForms.birthDate = true
+  quantity.value.length < 1 ? checkQuantity() : newForms.quantity = true
   checkRadioBtn()
-  checkBoxArray.length === 0 ? checkData()  : forms.checkBoxArray = true
-  checkbox1.checked === false ? checkCGU() : forms.checkbox1 = true
+  checkBoxArray.length === 0 ? checkData()  : newForms.checkBoxArray = true
+  checkbox1.checked === false ? checkCGU() : newForms.checkbox1 = true
 }
 
 function checkDate(date) {
   return date instanceof Date && !isNaN(date);
 }
 
+function selectRadioBtn(btn) {
+  if(btn.checked) checkBoxArray.push(btn)
+  handleErrorMessageDisplay(  checkBoxArray.length === 0, formData[5], null, "Veuillez selectionner un tournoi", "checkBoxArray")
+}
+
+function selectGU() {
+  checkCGU()
+}
+
 function checkRadioBtn() {
-  radioBtn.forEach(el => {
+  radioBtns.forEach(el => {
     if(el.checked) {
       checkBoxArray.push(el)
     }
@@ -210,21 +232,32 @@ function checkRadioBtn() {
 }
 
 function resetRadioBtn() {
-  radioBtn.forEach(el => {
-      el.checked = false
+  radioBtns.forEach(el => {
+    el.checked = false
   })
 }
 
+
 function handleSubmit() {
   checkFormValidation()
-  if(Object.values(forms).every(element => element === true)) {
-    isFormValidated = !isFormValidated
+  if(Object.values(newForms).every(element => element === true)) {
+    isFormValidated = true
     form.style.display = "none"
     validationSection.style.display = "flex";
     validationSection.style.flexDirection = "column";
     validationSection.classList.add('flex-between');
     div.style.display = "flex";
     div.classList.add('flex-center')
+    resetInputs()
+    newForms = {
+      first: false,
+      last: false,
+      email: false,
+      birthDate: false,
+      quantity: false,
+      checkBoxArray: false,
+      checkbox1: false,
+    }
+    checkBoxArray = []
   }
-
 }
